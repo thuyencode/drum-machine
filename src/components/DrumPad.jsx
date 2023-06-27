@@ -8,7 +8,11 @@ class DrumPad extends Component {
   }
 
   render () {
-    return <p>Drum pad #{this.props.drumpad}</p>
+    return (
+      <button className='box-border rounded-md bg-white px-7 py-5 text-lg font-bold drop-shadow-xl hover:bg-blue-300 hover:text-white focus-visible:bg-sky-300 focus-visible:text-white focus-visible:outline-none active:bg-sky-300 active:text-white'>
+        {this.props.drumpad}
+      </button>
+    )
   }
 }
 
