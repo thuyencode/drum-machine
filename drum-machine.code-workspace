@@ -16,6 +16,15 @@
     },
     "cSpell.words": [
       "drumpad"
-    ]
+    ],
+    "tailwindCSS.classAttributes": [
+      "class",
+      "className",
+      "ngClass",
+      "drumPadStyle",
+      "switchContainerStyle",
+      "switchStyle"
+    ],
+    "tailwindCSS.emmetCompletions": true
   }
 }
