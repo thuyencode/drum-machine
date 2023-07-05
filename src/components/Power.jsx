@@ -1,22 +1,13 @@
-import { Component } from 'react'
+import React, { useState, useEffect } from 'react';
 
-class Power extends Component {
-  constructor () {
-    super()
-    this.state = {
-      someKey: 'someValue'
-    }
-  }
+const Power = () => {
+  const [someKey, setSomeKey] = useState('someValue');
 
-  render () {
-    return <p>{this.state.someKey}</p>
-  }
+  useEffect(() => {
+    setSomeKey('otherValue');
+  }, []);
 
-  componentDidMount () {
-    this.setState({
-      someKey: 'otherValue'
-    })
-  }
-}
+  return <p>{someKey}</p>;
+};
 
-export default Power
+export default Power;
