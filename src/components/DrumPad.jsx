@@ -65,7 +65,7 @@ const DrumPad = ({ drumpad, sounds, power, bank, names, setName }) => {
       data-drumpad={drumpad}
     >
       {drumpad}
-      <audio id={drumpad} className='clip' src={sound} muted='muted' />
+      <audio id={drumpad} className='clip' src={sound} />
     </button>
   )
 }
