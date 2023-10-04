@@ -14,17 +14,32 @@
     "editor.quickSuggestions": {
       "strings": true
     },
-    "cSpell.words": [
-      "drumpad"
-    ],
+    "tailwindCSS.emmetCompletions": true,
     "tailwindCSS.classAttributes": [
       "class",
       "className",
       "ngClass",
-      "drumPadStyle",
-      "switchContainerStyle",
-      "switchStyle"
+      "defaultProps",
+      "styles"
     ],
-    "tailwindCSS.emmetCompletions": true
+    "cSpell.words": [
+      "Cantarell",
+      "Neue",
+      "Roboto",
+      "Segoe",
+      "Titillium"
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "idered.npm",
+      "christian-kohler.npm-intellisense",
+      "moalamri.inline-fold",
+      "dbaeumer.vscode-eslint",
+      "formulahendry.auto-rename-tag",
+      "bradlc.vscode-tailwindcss",
+      "zignd.html-css-class-completion",
+      "yoavbls.pretty-ts-errors"
+    ]
   }
 }

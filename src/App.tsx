@@ -53,7 +53,7 @@ const App = () => {
           className='grid grid-cols-2 grid-rows-2 items-end justify-items-center font-medium sm:flex sm:flex-col sm:items-center sm:justify-between'
           style={{
             height: tabWidth >= 640 ? size[0] : 'auto',
-            width: size[1]
+            width: size[1],
           }}
         >
           <div className='order-1 col-span-1 w-fit sm:order-none'>
