@@ -1,4 +1,4 @@
-const NavBar = () => {
+export default function NavBar() {
   return (
     <nav className='fixed top-0 flex w-full items-center justify-center py-2'>
       <a
@@ -21,5 +21,3 @@ const NavBar = () => {
     </nav>
   )
 }
-
-export default NavBar

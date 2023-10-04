@@ -1,92 +1,90 @@
-/* eslint-disable no-useless-constructor */
-import PropTypes from 'prop-types'
-import { useEffect, useRef, useState } from 'react'
-import { drumPadStyle } from '../js/styles'
+import useAppContext from '@/hooks/useAppContext'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { drumPadStyle } from '../constants/styles'
 
-const DrumPad = ({ drumpad, sounds, power, bank, names, setName }) => {
-  const ref = useRef(null)
+type DrumPadProps = {
+  drumPad: string
+  sounds: ReadonlyArray<string>
+  names: ReadonlyArray<string>
+}
+
+const DrumPad = ({
+  drumPad,
+  sounds = ['', ''],
+  names = ['', ''],
+}: DrumPadProps) => {
+  const { power = true, bank = false, setName } = useAppContext()
+
+  const ref = useRef<HTMLButtonElement | null>(null)
   const [clicked, setClicked] = useState(false)
+
   const sound = sounds[bank ? 1 : 0]
+  const name = names[bank ? 1 : 0]
 
-  useEffect(() => {
-    const button = ref.current
-    const audio = button.children[0]
-
-    const play = () => {
-      if (power === false) {
-        return
-      }
+  const play = useCallback(
+    (audio: HTMLAudioElement) => {
+      if (power === false) return
 
       const playPromise = audio.play()
 
       if (playPromise !== undefined) {
-        playPromise
-          .then(() => {
-            console.log(`Played '${sound}'`)
-          })
-          .catch((error) => console.error(error))
+        playPromise.catch((error) => console.error(error))
       }
-    }
+    },
+    [power]
+  )
 
-    const handleChange = (event) => {
+  useEffect(() => {
+    const button = ref.current
+
+    if (button == null) return
+
+    const audio = button.children[0] as HTMLAudioElement
+
+    const handleMouseEvent = (event: MouseEvent) => {
       event.stopPropagation()
 
-      if (
-        event.key === drumpad ||
-        event.key === drumpad.toLowerCase() ||
-        event.type === 'click'
-      ) {
+      setName(name)
+      setClicked(true)
+      play(audio)
+      setTimeout(() => setClicked(false), 150)
+    }
+
+    const handleKeyboardEvent = (event: KeyboardEvent) => {
+      event.stopPropagation()
+
+      if (event.key === drumPad || event.key === drumPad.toLowerCase()) {
         event.preventDefault()
 
-        setName(names[bank ? 1 : 0])
+        setName(name)
         setClicked(true)
-        play()
+        play(audio)
         setTimeout(() => setClicked(false), 150)
-
-        console.log(`Key: ${drumpad}`)
-        console.log(`Event: ${event.type}`)
       }
     }
 
-    document.addEventListener('keydown', handleChange)
-    button.addEventListener('click', handleChange)
+    document.addEventListener('keydown', handleKeyboardEvent)
+    button.addEventListener('click', handleMouseEvent)
 
     return () => {
-      document.removeEventListener('keydown', handleChange)
-      button.removeEventListener('click', handleChange)
+      document.removeEventListener('keydown', handleKeyboardEvent)
+      button.removeEventListener('click', handleMouseEvent)
     }
-  }, [drumpad, sound, power, bank, clicked, names, setName])
+  }, [drumPad, name, play, setName])
 
   return (
     <button
       id={names[bank ? 1 : 0]}
-      className={`drum-pad ${drumPadStyle.base} ${clicked ? drumPadStyle.clicked : drumPadStyle.notClicked}`}
+      className={`drum-pad ${drumPadStyle.base} ${
+        clicked ? drumPadStyle.clicked : drumPadStyle.notClicked
+      }`}
       ref={ref}
-      data-drumpad={drumpad}
+      data-drumpad={drumPad}
     >
-      {drumpad}
-      <audio id={drumpad} className='clip' src={sound} />
+      {drumPad}
+      <audio id={drumPad} className='clip' src={sound} />
     </button>
   )
-}
-
-DrumPad.propTypes = {
-  drumpad: PropTypes.string.isRequired,
-  sounds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  power: PropTypes.bool.isRequired,
-  bank: PropTypes.bool.isRequired,
-  names: PropTypes.arrayOf(PropTypes.string).isRequired,
-  setName: PropTypes.func.isRequired
-}
-
-DrumPad.defaultProps = {
-  sounds: ['', ''],
-  power: true,
-  bank: false,
-  names: ['', ''],
-  setName: () => {
-    console.error('No callback functions provided!')
-  }
 }
 
 export default DrumPad
